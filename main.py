@@ -15,7 +15,7 @@ def load_posts():
 
 
 def main():
-    st.title("掲示板アプリ")
+    st.title("三重野　寿司")
 
     # 新規投稿の入力
     new_post = st.text_area("新規投稿", height=100)
