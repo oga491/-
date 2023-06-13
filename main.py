@@ -9,7 +9,7 @@ def save_post(post):
 
 
 def load_posts():
-    with pyson.db('posts.json') as db:
+    with python.db('posts.json') as db:
         return db
 
 
