@@ -1,16 +1,17 @@
 
 import streamlit as st
-import python
+import json
 
 
 def save_post(post):
-    with pyson.db('posts.json') as db:
-        db.append(post)
+    with open('posts.json', 'a') as file:
+        json.dump(post, file)
+        file.write('\n')
 
 
 def load_posts():
-    with python.db('posts.json') as db:
-        return db
+    with open('posts.json', 'r') as file:
+        return [json.loads(line) for line in file]
 
 
 def main():
