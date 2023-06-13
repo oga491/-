@@ -30,10 +30,14 @@ def main():
     # 保存された投稿の表示
     posts = load_posts()
     st.subheader("保存された投稿")
-    for post in posts:
-        st.text(post["title"])
-        st.text(post["content"])
-        st.markdown("---")
+
+    if not posts:
+        st.info("まだ投稿がありません。")
+    else:
+        for post in posts:
+            st.text(post["title"])
+            st.text(post["content"])
+            st.markdown("---")
 
 
 if __name__ == "__main__":
