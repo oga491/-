@@ -1,6 +1,6 @@
 
 import streamlit as st
-import pyson
+import python
 
 
 def save_post(post):
