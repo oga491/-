@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from datetime import datetime
+import pytz
 
 # 禁止ワードのリスト
 banned_words = ["馬鹿", "禁止ワード2", "禁止ワード3"]
@@ -16,7 +17,7 @@ def check_post_content(title, content):
     return title, content
 
 def save_post(title, content):
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(pytz.timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S")
     post = {"title": title, "content": content, "timestamp": now}
     with open('posts.json', 'a') as file:
         file.write(json.dumps(post))
