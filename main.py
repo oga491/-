@@ -1,4 +1,4 @@
-import json
+import jsona
 from datetime import datetime
 import pytz
 import urllib.parse
