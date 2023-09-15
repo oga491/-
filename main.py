@@ -55,4 +55,4 @@ def main():
         st.info("まだ投稿がありません。")
     else:
         for post in posts:
-        # 各タイトルにリンクを付けて表示
+    # 各タイトルにリンクを付けて表示
