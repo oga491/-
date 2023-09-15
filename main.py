@@ -2,17 +2,10 @@ import json
 from datetime import datetime
 import pytz
 import urllib.parse
-import streamlit as st
 
 # 禁止ワードのリスト
 banned_words = ["馬鹿", "禁止ワード2", "禁止ワード3"]
-
-def check_post_content(title, content):
-    # 禁止ワードが含まれているかチェック
-    for word in banned_words:
-        if word in title or word in content:
-            st.warning("禁止ワードが含まれています！")
-            return "", ""
+	@@ -17,24 +18,33 @@ def check_post_content(title, content):
     return title, content
 
 def save_post(title, content):
@@ -46,13 +39,16 @@ def main():
     # 投稿ボタンが押された場合
     if st.button("投稿する") and new_post_title and new_post_content:
         new_post_title, new_post_content = check_post_content(new_post_title, new_post_content)
-        if new_post_title and new_post_content:
-            save_post(new_post_title, new_post_content)
-
-    # 投稿一覧を表示
-    posts = load_posts()
-    if not posts:
+	@@ -52,12 +62,12 @@ def main():
         st.info("まだ投稿がありません。")
     else:
         for post in posts:
-    # 各タイトルにリンクを付けて表示
+            # 各タイトルにリンクを付けて表示
+            post_url = f"<a href='https://maichan-bord-{urllib.parse.quote(post['title'])}.streamlit.app'>{post['title']}</a>"
+            st.subheader(post['content'])
+            st.write(post['timestamp'])  # タイムスタンプを表示
+            st.markdown(post_url, unsafe_allow_html=True)
+            st.markdown("---")
+
+if __name__ == "__main__":
+    main()
