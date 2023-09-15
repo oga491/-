@@ -2,10 +2,17 @@ import json
 from datetime import datetime
 import pytz
 import urllib.parse
+import streamlit as st
 
 # 禁止ワードのリスト
 banned_words = ["馬鹿", "禁止ワード2", "禁止ワード3"]
-	@@ -17,24 +18,33 @@ def check_post_content(title, content):
+
+def check_post_content(title, content):
+    # 禁止ワードが含まれているかチェック
+    for word in banned_words:
+        if word in title or word in content:
+            st.warning("禁止ワードが含まれています！")
+            return "", ""
     return title, content
 
 def save_post(title, content):
@@ -39,7 +46,12 @@ def main():
     # 投稿ボタンが押された場合
     if st.button("投稿する") and new_post_title and new_post_content:
         new_post_title, new_post_content = check_post_content(new_post_title, new_post_content)
-	@@ -52,12 +62,12 @@ def main():
+        if new_post_title and new_post_content:
+            save_post(new_post_title, new_post_content)
+
+    # 投稿一覧を表示
+    posts = load_posts()
+    if not posts:
         st.info("まだ投稿がありません。")
     else:
         for post in posts:
