@@ -68,7 +68,7 @@ def main():
             st.write(post['timestamp'])  # タイムスタンプを表示
 
             # GoodボタンとBadボタンを追加
-            col1, col2 = st.beta_columns(2)
+            col1, col2 = st.columns(2)
             good_button = col1.button(f"Good ({post_ratings[post['title']]['good']})", key=f"good_{post['title']}")
             bad_button = col2.button(f"Bad ({post_ratings[post['title']]['bad']})", key=f"bad_{post['title']}")
             if good_button:
@@ -81,3 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
