@@ -76,8 +76,12 @@ def main():
             if bad_button:
                 post_ratings[post['title']]['bad'] += 1
 
+            # 評価カウンターを表示
+            st.write(f"Good: {post_ratings[post['title']]['good']}, Bad: {post_ratings[post['title']]['bad']}")
+
             st.markdown(post_url, unsafe_allow_html=True)
             st.markdown("---")
 
 if __name__ == "__main__":
     main()
+
