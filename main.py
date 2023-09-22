@@ -7,7 +7,7 @@ import streamlit as st
 # 禁止ワードのリスト
 banned_words = ["馬鹿", "禁止ワード2", "禁止ワード3"]
 
-# 各投稿にgoodとbadの評価を保持するための辞書
+# 各投稿にGoodとBadの評価を保持するための辞書
 post_ratings = {}
 
 def check_post_content(title, content):
@@ -84,5 +84,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
