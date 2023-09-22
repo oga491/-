@@ -7,8 +7,8 @@ import streamlit as st
 # 禁止ワードのリスト
 banned_words = ["馬鹿", "禁止ワード2", "禁止ワード3"]
 
-# 各投稿にGoodとBadの評価を保持するための辞書
-post_ratings = {}
+# 各投稿にGoodとBadの評価を保持するための辞書のリスト
+posts = []
 
 def check_post_content(title, content):
     # 禁止ワードが含まれているかチェック
@@ -22,29 +22,11 @@ def save_post(title, content):
     now = datetime.now(pytz.timezone("Asia/Tokyo"))
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
     post = {"title": title, "content": content, "timestamp": now_str, "good": 0, "bad": 0}
-    with open('posts.json', 'a', encoding='utf-8') as file:  # 追記モードとUTF-8エンコーディングを指定
-        file.write(json.dumps(post, ensure_ascii=False))  # ensure_asciiをFalseに設定して日本語文字をエスケープしないようにする
-        file.write('\n')
-    post_ratings[title] = {"good": 0, "bad": 0}  # 評価カウンターを初期化
+    posts.append(post)  # 新しい投稿をリストに追加
 
 def load_posts():
-    with open('posts.json', 'r', encoding='utf-8') as file:  # 読み込みモードとUTF-8エンコーディングを指定
-        lines = file.readlines()
-        posts = [json.loads(line.strip()) for line in lines]
-
-        # タイムスタンプを日本時間に変換
-        for post in posts:
-            timestamp = datetime.strptime(post['timestamp'], "%Y-%m-%d %H:%M:%S")
-            timestamp = pytz.timezone("Asia/Tokyo").localize(timestamp)
-            post['timestamp'] = timestamp.strftime("%Y-%m-%d %H:%M:%S")
-
-            # 評価カウンターを初期化
-            if 'good' not in post:
-                post['good'] = 0
-            if 'bad' not in post:
-                post['bad'] = 0
-
-        return posts
+    # ファイルから読み込む部分を削除し、リストから直接読み込むように変更
+    return posts
 
 def main():
     st.title("掲示板アプリ")
