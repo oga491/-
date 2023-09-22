@@ -22,13 +22,13 @@ def save_post(title, content):
     now = datetime.now(pytz.timezone("Asia/Tokyo"))
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
     post = {"title": title, "content": content, "timestamp": now_str, "good": 0, "bad": 0}
-    with open('posts.json', 'a') as file:
-        file.write(json.dumps(post))
+    with open('posts.json', 'a', encoding='utf-8') as file:  # 追記モードとUTF-8エンコーディングを指定
+        file.write(json.dumps(post, ensure_ascii=False))  # ensure_asciiをFalseに設定して日本語文字をエスケープしないようにする
         file.write('\n')
     post_ratings[title] = {"good": 0, "bad": 0}  # 評価カウンターを初期化
 
 def load_posts():
-    with open('posts.json', 'r') as file:
+    with open('posts.json', 'r', encoding='utf-8') as file:  # 読み込みモードとUTF-8エンコーディングを指定
         lines = file.readlines()
         posts = [json.loads(line.strip()) for line in lines]
 
