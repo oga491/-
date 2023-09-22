@@ -21,11 +21,10 @@ def check_post_content(title, content):
 def save_post(title, content):
     now = datetime.now(pytz.timezone("Asia/Tokyo"))
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
-    post = {"title": title, "content": content, "timestamp": now_str, "good": 0, "bad": 0}
+    post = {"title": title, "content": content, "timestamp": now_str, "ratings": {"good": 0, "bad": 0}}
     with open('posts.json', 'a') as file:
         file.write(json.dumps(post))
         file.write('\n')
-    post_ratings[title] = {"good": 0, "bad": 0}  # 評価カウンターを初期化
 
 def load_posts():
     with open('posts.json', 'r') as file:
@@ -39,7 +38,8 @@ def load_posts():
             post['timestamp'] = timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
             # 評価カウンターを初期化
-            post_ratings[post["title"]] = {"good": 0, "bad": 0}
+            if 'ratings' not in post:
+                post['ratings'] = {"good": 0, "bad": 0}
 
         return posts
 
@@ -69,19 +69,20 @@ def main():
 
             # GoodボタンとBadボタンを追加
             col1, col2 = st.columns(2)
-            good_button = col1.button(f"Good ({post_ratings[post['title']]['good']})", key=f"good_{post['title']}")
-            bad_button = col2.button(f"Bad ({post_ratings[post['title']]['bad']})", key=f"bad_{post['title']}")
+            good_button = col1.button(f"Good ({post['ratings']['good']})", key=f"good_{post['title']}")
+            bad_button = col2.button(f"Bad ({post['ratings']['bad']})", key=f"bad_{post['title']}")
             if good_button:
-                post_ratings[post['title']]['good'] += 1
+                post['ratings']['good'] += 1
             if bad_button:
-                post_ratings[post['title']]['bad'] += 1
+                post['ratings']['bad'] += 1
 
             # 評価カウンターを表示
-            st.write(f"Good: {post_ratings[post['title']]['good']}, Bad: {post_ratings[post['title']]['bad']}")
+            st.write(f"Good: {post['ratings']['good']}, Bad: {post['ratings']['bad']}")
 
             st.markdown(post_url, unsafe_allow_html=True)
             st.markdown("---")
 
 if __name__ == "__main__":
     main()
+
 
