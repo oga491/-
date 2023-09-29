@@ -39,6 +39,8 @@ def main():
     if st.button("投稿する") and new_post_title and new_post_content:
         new_post_title, new_post_content = check_post_content(new_post_title, new_post_content)
         if new_post_title and new_post_content:
+            # 新しい投稿を保存する前に現在の投稿を読み込む
+            posts = load_posts()
             save_post(new_post_title, new_post_content)
 
     # 投稿一覧を表示
@@ -49,7 +51,8 @@ def main():
         for post in posts:
             # 各タイトルにリンクを付けて表示
             post_url = f"<a href='https://maichan-bord-{urllib.parse.quote(post['title'])}.streamlit.app'>{post['title']}</a>"
-            st.subheader(post['content'])
+            st.subheader(post['title'])  # タイトルを表示
+            st.write(post['content'])
             st.write(post['timestamp'])  # タイムスタンプを表示
 
             # GoodボタンとBadボタンを追加
@@ -64,12 +67,9 @@ def main():
             # 評価カウンターを表示
             st.write(f"Good: {post['good']}, Bad: {post['bad']}")
 
+            # タイトルへのリンクを表示
             st.markdown(post_url, unsafe_allow_html=True)
             st.markdown("---")
 
 if __name__ == "__main__":
     main()
-
-
-
-
