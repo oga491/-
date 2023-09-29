@@ -13,16 +13,16 @@ class Post:
         self.title = title
         self.content = content
         self.timestamp = datetime.now(pytz.timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S")
-        self.good = 0
-        self.bad = 0
+        self.good_count = 0  # グッドのカウント
+        self.bad_count = 0   # バッドのカウント
 
     def to_dict(self):
         return {
             "title": self.title,
             "content": self.content,
             "timestamp": self.timestamp,
-            "good": self.good,
-            "bad": self.bad,
+            "good_count": self.good_count,  # グッドのカウントを保存
+            "bad_count": self.bad_count,    # バッドのカウントを保存
         }
 
 # 各投稿を格納するリスト
@@ -49,8 +49,8 @@ def load_posts():
             post_dict = json.loads(line.strip())
             post = Post(post_dict["title"], post_dict["content"])
             post.timestamp = post_dict["timestamp"]
-            post.good = post_dict["good"]
-            post.bad = post_dict["bad"]
+            post.good_count = post_dict["good_count"]  # グッドのカウントをロード
+            post.bad_count = post_dict["bad_count"]    # バッドのカウントをロード
             loaded_posts.append(post)
     return loaded_posts
 
@@ -81,20 +81,19 @@ def main():
 
             # GoodボタンとBadボタンを追加
             col1, col2 = st.columns(2)
-            good_button = col1.button(f"Good ({post.good})", key=f"good_{post.title}")
-            bad_button = col2.button(f"Bad ({post.bad})", key=f"bad_{post.title}")
+            good_button = col1.button(f"Good ({post.good_count})", key=f"good_{post.title}")
+            bad_button = col2.button(f"Bad ({post.bad_count})", key=f"bad_{post.title}")
             if good_button:
-                post.good += 1
+                post.good_count += 1  # グッドのカウントを増やす
             if bad_button:
-                post.bad += 1
+                post.bad_count += 1    # バッドのカウントを増やす
 
             # 評価カウンターを表示
-            st.write(f"Good: {post.good}, Bad: {post.bad}")
+            st.write(f"Good: {post.good_count}, Bad: {post.bad_count}")
 
             st.markdown(post_url, unsafe_allow_html=True)
             st.markdown("---")
 
 if __name__ == "__main__":
     main()
-
 
