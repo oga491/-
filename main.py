@@ -49,8 +49,8 @@ def load_posts():
             post_dict = json.loads(line.strip())
             post = Post(post_dict["title"], post_dict["content"])
             post.timestamp = post_dict["timestamp"]
-            post.good_count = post_dict["good_count"]  # グッドのカウントをロード
-            post.bad_count = post_dict["bad_count"]    # バッドのカウントをロード
+            post.good_count = post_dict.get("good_count", 0)  # グッドのカウントをロード
+            post.bad_count = post_dict.get("bad_count", 0)    # バッドのカウントをロード
             loaded_posts.append(post)
     return loaded_posts
 
