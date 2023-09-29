@@ -73,10 +73,10 @@ def main():
     if not loaded_posts:
         st.info("まだ投稿がありません。")
     else:
-        for post in loaded_posts:
+        for i, post in enumerate(loaded_posts, start=1):
             # 各タイトルにリンクを付けて表示
             post_url = f"<a href='https://maichan-bord-{urllib.parse.quote(post.title)}.streamlit.app'>{post.title}</a>"
-            st.subheader(post.content)
+            st.subheader(f"{i}. {post.content}")
             st.write(post.timestamp)  # タイムスタンプを表示
 
             # GoodボタンとBadボタンを追加
@@ -96,4 +96,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
