@@ -3,9 +3,7 @@ import json
 import pandas as pd
 from datetime import datetime
 import pytz
-import urllib.parse
-
-
+import urllib.parse  # urllib.parseモジュールをインポート
 
 
 
@@ -60,4 +58,7 @@ def main():
             st.subheader(post['title'])
             st.write(post['content'])  # 投稿内容
             st.write(post['timestamp'])  # タイムスタンプ
-            st
+            st.markdown(post_url, unsafe_allow_html=True)  # リンクを表示
+
+if __name__ == "__main__":
+    main()
